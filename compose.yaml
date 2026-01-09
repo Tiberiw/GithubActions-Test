@@ -1,4 +1,9 @@
 services:
+  server:
+    image: tiberiuam/actions-test
+    container_name: node-server
+    ports:
+      - 8080:8080
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower

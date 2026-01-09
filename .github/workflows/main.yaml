@@ -1,0 +1,29 @@
+name: Release Node.js app
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    name: Build & Push to dockerhub job
+    runs-on: ubuntu-latest
+    steps:
+      - name: First step - checkout repository
+      - uses: actions/checkout@v5
+
+      - name: Setup Docker Buildx
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Image to DockerHub
+      - uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/actions-test:latest
